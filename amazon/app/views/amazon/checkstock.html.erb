@@ -1,0 +1,8 @@
+<% if @name %>
+    <%= @name %>: <%= @stocker[@name] %>
+<% else %>
+    <% keys = @stocker.keys.sort %>
+    <% keys.each do |key| %>
+        <%= key %>: <%= @stocker[key] %>
+    <% end %>
+<% end %>
