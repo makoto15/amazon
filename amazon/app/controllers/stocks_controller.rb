@@ -54,7 +54,7 @@ class StocksController < ApplicationController
         elsif params[:function] == 'sell'
             l = params[:name].size.to_s
             stock = Stock.find_by(name: params[:name].unpack('c'+l).join(','))
-            if params[:amount]
+            if ((params[:amount]) && (stock.amount >= params[:amount].to_i))
                 if params[:price]
                     stock.amount -= params[:amount].to_i
                     sale = Sale.first
@@ -65,7 +65,7 @@ class StocksController < ApplicationController
                     stock.amount -= params[:amount].to_i
                     stock.save
                 end
-            else
+            elsif ((!params[:amount]) && (stock.amount >= 1))
                 if params[:price]
                     stock.amount -= 1
                     sale = Sale.first
