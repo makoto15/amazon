@@ -19,7 +19,7 @@ class AmazonController < ApplicationController
         calculate.delete('controller')
         calculate.delete('action')
         calculate = calculate[0].dup
-        if /[^0-9\*\/ -\(\)]/ =~ calculate
+        if /[^0-9\*\/ \(\)-]/ =~ calculate
             render action: 'error_calc'
         else
             calculate.size.times do |i|
