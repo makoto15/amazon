@@ -3,5 +3,5 @@ Rails.application.routes.draw do
   root to: 'amazon#index'
   get '/secret' => 'amazon#secret'
   get '/calc' => 'amazon#calc'
-  get '/stocker' => 'amazon#stocker'
+  get '/stocker' => 'stocks#create'
 end

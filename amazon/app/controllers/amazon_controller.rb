@@ -1,6 +1,4 @@
 class AmazonController < ApplicationController
-    @@stocker = {}
-    @@sell = 0
     layout 'amazon'
     def index
     end
@@ -30,49 +28,6 @@ class AmazonController < ApplicationController
                 end
             end
             @answer = cal(calculate)
-        end
-    end
-
-    def stocker
-        if (params[:amount] && (/[^0-9]/ =~ params[:amount]))
-            render action: 'error_calc'
-        end
-        if (params[:price] && (/[^0-9]/ =~ params[:price]))
-            render action: 'error_calc'
-        end
-        if params[:function] == 'deleteall'
-            @@stocker = {}
-        elsif params[:function] == 'addstock'
-            if @@stocker[params[:name]]
-                if params[:amount]
-                    @@stocker[params[:name]] += params[:amount].to_i
-                else
-                    @@stocker[params[:name]] += 1
-                end
-            else
-                if params[:amount]
-                    @@stocker[params[:name]] = params[:amount].to_i
-                else
-                    @@stocker[params[:name]] = 1
-                end
-            end
-        elsif params[:function] == 'checkstock'
-            @stocker = @@stocker
-            @name = params[:name]
-            render action: 'checkstock'
-        elsif params[:function] == 'sell'
-            if params[:amount]
-                @@stocker[params[:name]] -= params[:amount].to_i
-                @@sell += params[:amount].to_i * params[:price].to_i
-            else
-                @@stocker[params[:name]] -= 1
-                @@sell += params[:price].to_i
-            end
-        elsif params[:function] == 'checksales'
-            @sell = @@sell
-            render action: 'checksales'
-        else
-            render action: 'error_calc'
         end
     end
 

@@ -1,0 +1,7 @@
+<% if @name %>
+<%= @name %>: <%= @stocks.find_by(name: @name).amount %>
+<% else %>
+<% @stocks.each do |stock| %>
+<%= stock.name %>: <%= stock.amount %>
+<% end %>
+<% end %>
