@@ -3,11 +3,11 @@ class StocksController < ApplicationController
     def create
         #if amount variable is not an integer
         if (params[:amount] && (/[^0-9]/ =~ params[:amount]))
-            render action: 'error'
+            render action: 'error' and return
         end
         # if price variable is not an integer
         if (params[:price] && (/[^0-9]/ =~ params[:price]))
-            render action: 'error'
+            render action: 'error' and return
         end
 
         #when function variable was deleteall
@@ -48,7 +48,7 @@ class StocksController < ApplicationController
         elsif params[:function] == 'checkstock'
             @stocks = Stock.all
             @name = params[:name]
-            render action: 'checkstock'
+            render action: 'checkstock' and return
         
         #when funcion variable was sell
         elsif params[:function] == 'sell'
@@ -79,9 +79,9 @@ class StocksController < ApplicationController
             end
         elsif params[:function] == 'checksales'
             @sale = Sale.first
-            render action: 'checksales'
+            render action: 'checksales' and return
         else
-            render action: 'error'
+            render action: 'error' and return 
         end
     end
 
