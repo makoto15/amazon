@@ -1,7 +1,8 @@
 <% if @name %>
-<%= @name %>: <%= @stocks.find_by(name: @name).amount %>
+<%= @name %>: <%= @stocks.find_by(name: @name.unpack('c'+@name.size.to_s).join(',')).amount %>
 <% else %>
-<% @stocks.each do |stock| %>
-<%= stock.name %>: <%= stock.amount %>
+<% @stocks.sort{|a,b| a.name.split(',').map(&:to_i).pack('c'+a.name.split(',').size.to_s) <=> b.name.split(',').map(&:to_i).pack('c'+b.name.split(',').size.to_s)}.each do |stock| %>
+<% l = stock.name.split(',').size.to_s %>
+<%= stock.name.split(',').map(&:to_i).pack('c'+l) %>: <%= stock.amount %>
 <% end %>
 <% end %>

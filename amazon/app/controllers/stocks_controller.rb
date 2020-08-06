@@ -20,7 +20,8 @@ class StocksController < ApplicationController
         #when function variable was addstock
         elsif params[:function] == 'addstock'
             #if name variable exists in stock db
-            if stock = Stock.find_by(name: params[:name])
+            l = params[:name].size.to_s
+            if stock = Stock.find_by(name: params[:name].unpack('c'+l).join(','))
                 #if amount variable exists
                 if params[:amount]
                     stock.amount += params[:amount].to_i
@@ -34,24 +35,25 @@ class StocksController < ApplicationController
             else
                 #if amount variable exists
                 if params[:amount]
-                    stock = Stock.new(name: params[:name], amount: params[:amount])
+                    stock = Stock.new(name: params[:name].unpack('c'+l).join(','), amount: params[:amount])
                     stock.save
                 #if amount variable does not exists
                 else
-                    stock = Stock.new(name: params[:name], amount: params[:amount])
+                    stock = Stock.new(name: params[:name].unpack('c'+l).join(','), amount: params[:amount])
                     stock.save
                 end
             end
 
         #when function variable was checkstock
         elsif params[:function] == 'checkstock'
-            @stocks = Stock.all.order(name: 'ASC')
+            @stocks = Stock.all
             @name = params[:name]
             render action: 'checkstock'
         
         #when funcion variable was sell
         elsif params[:function] == 'sell'
-            stock = Stock.find_by(name: params[:name])
+            l = params[:name].size.to_s
+            stock = Stock.find_by(name: params[:name].unpack('c'+l).join(','))
             if params[:amount]
                 if params[:price]
                     stock.amount -= params[:amount].to_i
